@@ -1,12 +1,11 @@
-Datamigrator
-============
+#Datamigrator
 
 The datamigrator folder represents code that can be used to read data from an external Oracle database.
 The intent is the extract the data, transform it, and then load into a DynamoDB instance on AWS.  The code is written based on the native 
 Python 2.7 pre-installed on the Mac.
 
-Development Environment
---------------------------------
+##Development Environment
+
 There are a number of steps necessary to set up the oracle environment on the mac.
 1. Download the Oracle Client from Oracle website http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html
 - instantclient-basic-macos.x64-12.1.0.2.0.zip
@@ -18,9 +17,9 @@ There are a number of steps necessary to set up the oracle environment on the ma
 ln -s libclntsh.dylib.12.1 libclntsh.dylib
 
 3. Modify your .bash_profile
-# Tell cx_Oracle setup.py where to find instantclient libs
+-*Tell cx_Oracle setup.py where to find instantclient libs*
 export ORACLE_HOME=/usr/local/opt/instantclient_12_1
-# Set -rpath option to tell gcc to look in ORACLE_HOME when linking
+-*Set -rpath option to tell gcc to look in ORACLE_HOME when linking*
 export FORCE_RPATH=1
 
 4. Download and install Oracle
