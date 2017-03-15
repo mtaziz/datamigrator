@@ -37,3 +37,10 @@ ImportError: dlopen(/Library/Python/2.7/site-packages/cx_Oracle.so, 2): Library 
 If you are seeing this exception, you either skipped setting ORACLE_HOME and FORCE_RPATH (as described above), or you are using a cached version of the cx_Oracle build when installing. To force pip to re-build the package, run:
 
 pip install --no-cache-dir --allow-external --allow-unverified cx_oracle
+
+##Files
+1. extractor.py
+- Extract data from Oracle
+
+2. loader.py
+- Loads data into Dynamo DB
