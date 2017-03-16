@@ -5,13 +5,13 @@ __author__ = 'sbowers'
 
 
 def config_section_map(section):
-    Config = ConfigParser.ConfigParser()
-    Config.read(os.path.dirname(os.path.dirname(__file__)) + "/_config.ini")
+    config = ConfigParser.ConfigParser()
+    config.read(os.path.dirname(os.path.dirname(__file__)) + "/_config.ini")
     dict1 = {}
-    options = Config.options(section)
+    options = config.options(section)
     for option in options:
         try:
-            dict1[option] = Config.get(section, option)
+            dict1[option] = config.get(section, option)
             if dict1[option] == -1:
                 pass
         except:
@@ -34,6 +34,7 @@ cDebug = config_section_map("environment")['debug'] == "True"
 DynamoHost = config_section_map("dynamo")["host"]
 DynamoUser = config_section_map("dynamo")["username"]
 DynamoPassword = config_section_map("dynamo")["password"]
+DynamoTestPost = config_section_map("dynamo")["testpost"]
 
 OracleDatabase = config_section_map("oracle")["database"]
 OracleHost = config_section_map("oracle")["host"]

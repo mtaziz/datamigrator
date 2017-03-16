@@ -1,11 +1,14 @@
-__author__ = 'scottbowers'
-
-import requests
-import sharedlibs.tools as _tools
 import sharedlibs.config as _config
-import sharedlibs.tools_http as _tools_http
+import sharedlibs.tools_dynamo as _tools_dynamo
 
 
-sess = requests.Session()
+class Loader(object):
+    @staticmethod
+    def loader_tester(_json):
+        return _tools_dynamo.ToolsDynamo().create_table(_json)
+        #return _tools_dynamo.ToolsDynamo().dynamo_insert_record(_json)
 
-r = _tools_http.http_do_delete(sess, _config.DynamoHost)
+
+Loader.loader_tester(_config.DynamoTestPost)
+
+

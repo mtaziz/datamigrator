@@ -1,7 +1,7 @@
 import config
 import datetime
 
-__author__ = 'scottbowers'
+__author__ = 'sbowers'
 
 
 def debug(_message):
