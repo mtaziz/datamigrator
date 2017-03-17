@@ -2,6 +2,12 @@ from unittest import TestCase
 
 
 class TestDependencies(TestCase):
+    def test_configparser_dependency(self):
+        try:
+            import configparser
+        except:
+            self.fail(msg="could not load configparser")
+
     def test_datetime_dependency(self):
         try:
             import datetime

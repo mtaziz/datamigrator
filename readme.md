@@ -15,6 +15,10 @@ DynamoDB can be run locally on the Mac
 3. In the terminal, run the following against the diretory<br>
 
         java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+        
+4. enter your keys using the following command
+        
+        aws configure
 
 ###Oracle
 
@@ -25,8 +29,9 @@ There are a number of steps necessary to set up the oracle environment on the ma
 
 2. Unzip the downloaded files, and place them into the desired directory.
 
-3. In the terminal, create a shortcut for later use in that directory
-ln -s libclntsh.dylib.12.1 libclntsh.dylib
+3. In the terminal, create a shortcut for later use in that directory<br>
+        
+        ln -s libclntsh.dylib.12.1 libclntsh.dylib
 
 3. Modify your .bash_profile
 -*Tell cx_Oracle setup.py where to find instantclient libs*
@@ -34,11 +39,14 @@ export ORACLE_HOME=/usr/local/opt/instantclient_12_1
 -*Set -rpath option to tell gcc to look in ORACLE_HOME when linking*
 export FORCE_RPATH=1
 
-4. Download and install Oracle
-pip install cx_Oracle
+4. Download and install Oracle<br>
+
+        pip install cx_Oracle
 
 5. Verify install
-python -c "import cx_Oracle"
+
+        python -c "import cx_Oracle"
+    
 If this fails then you may see the following exception:
     >  Traceback (most recent call last):
   File "<string>", line 1, in <module>
@@ -72,3 +80,14 @@ If this fails then you may see the following exception:
 - test_dependencies.py: unit testing that dependencies are installed correctly
 - test_dynamo.py: Mock testing of DynamoDB 
 - test_extractor.py: Testing the OracleDB connection
+- test_oracle.py Mock testing of OracleDB
+
+##Packages
+the following package dependencies need to be installed via pip3 or other
+- awscli: handles keys for aws/Dynamo connection
+- boto3: communication with DynamoDB
+- configparser: _config.ini handling
+- cx_Oracle: communication with the OracleDB
+- mock: used for mocking unittests
+- nose: used for mock unittests
+- requests: http library, may not be necessary

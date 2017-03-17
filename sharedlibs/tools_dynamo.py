@@ -1,5 +1,3 @@
-import config
-import debug
 import boto3
 
 __author__ = 'scottbowers'
@@ -81,7 +79,7 @@ class ToolsDynamo(object):
         return item
 
     @staticmethod
-    def get_recordset(_json):
+    def get_recordset(table):
         from boto3.dynamodb.conditions import Key, Attr
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('users')
@@ -123,7 +121,7 @@ class ToolsDynamo(object):
         return True
 
     @staticmethod
-    def read_table():
+    def read_table(table):
         # Get the service resource.
         dynamodb = boto3.resource('dynamodb')
 
@@ -132,7 +130,7 @@ class ToolsDynamo(object):
         # are lazy-loaded: a request is not made nor are the attribute
         # values populated until the attributes
         # on the table resource are accessed or its load() method is called.
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(table)
 
         # Print out some data about the table.
         # This will cause a request to be made to DynamoDB and its attribute

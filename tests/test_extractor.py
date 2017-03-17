@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 from extractor import Extractor
 import sharedlibs.config as _config
 from unittest import TestCase

@@ -1,11 +1,11 @@
-import ConfigParser
+import configparser
 import os.path
 
 __author__ = 'sbowers'
 
 
 def config_section_map(section):
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(os.path.dirname(os.path.dirname(__file__)) + "/_config.ini")
     dict1 = {}
     options = config.options(section)
@@ -30,11 +30,6 @@ cBOLD = '\033[1m'
 cUNDERLINE = '\033[4m'
 
 cDebug = config_section_map("environment")['debug'] == "True"
-
-DynamoHost = config_section_map("dynamo")["host"]
-DynamoUser = config_section_map("dynamo")["username"]
-DynamoPassword = config_section_map("dynamo")["password"]
-DynamoTestPost = config_section_map("dynamo")["testpost"]
 
 OracleDatabase = config_section_map("oracle")["database"]
 OracleHost = config_section_map("oracle")["host"]

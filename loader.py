@@ -4,11 +4,10 @@ import sharedlibs.tools_dynamo as _tools_dynamo
 
 class Loader(object):
     @staticmethod
-    def loader_tester(_json):
-        return _tools_dynamo.ToolsDynamo().create_table(_json)
-        #return _tools_dynamo.ToolsDynamo().dynamo_insert_record(_json)
+    def loader_read_table_tester(table):
+        return _tools_dynamo.ToolsDynamo().read_table(table)
 
 
-Loader.loader_tester(_config.DynamoTestPost)
+print(Loader.loader_tester("test"))
 
 
