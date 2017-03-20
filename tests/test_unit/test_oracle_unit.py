@@ -1,0 +1,49 @@
+from mock import patch
+import tests.configtests as _config
+from sharedlibs.tools_oracle import ToolsOracle
+from unittest import TestCase
+
+
+@staticmethod
+def fake_get_record(sql):
+    return _config.OracleTestRecord
+
+@staticmethod
+def fake_get_recordset(sql):
+    return _config.OracleTestRecordset
+
+
+class TestOracleMock(TestCase):
+    def create_patch(self, name, fakemethod):
+        self.patcher = patch(name, fakemethod)
+        thing = self.patcher.start()
+        self.client = ToolsOracle()
+        self.addCleanup(self.patcher.stop)
+        return thing
+
+    def test_get_record_mock(self):
+        self.create_patch('sharedlibs.tools_oracle.ToolsOracle.get_record', fake_get_record)
+        sql = _config.OracleTestQueryOneRecord
+        response = self.client.get_record(sql)
+        self.assertIn('ENROLLMENTTARGET', response)
+        self.assertEqual(response['ENROLLMENTTARGET'], 'eta')
+
+    def test_get_recordset_mock(self):
+        self.create_patch('sharedlibs.tools_oracle.ToolsOracle.get_recordset', fake_get_recordset)
+        sql = _config.OracleTestQueryRecordset
+        response = self.client.get_recordset(sql)
+        self.assertIn(_config.OracleTestRecordset[0], response)
+        self.assertEqual(response[0]['ENROLLMENTTARGET'], _config.OracleTestRecordset[0]['ENROLLMENTTARGET'])
+        self.assertEqual(response[1]['ENROLLMENTTARGET'], _config.OracleTestRecordset[1]['ENROLLMENTTARGET'])
+
+
+
+
+
+
+
+
+
+
+
+

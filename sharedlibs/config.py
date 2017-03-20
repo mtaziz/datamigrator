@@ -19,24 +19,11 @@ def config_section_map(section):
             dict1[option] = None
     return dict1
 
-
-cHEADER = '\033[95m'
-cOKBLUE = '\033[94m'
-cOKGREEN = '\033[92m'
-cWARNING = '\033[93m'
-cFAIL = '\033[91m'
-cENDC = '\033[0m'
-cBOLD = '\033[1m'
-cUNDERLINE = '\033[4m'
-
-cDebug = config_section_map("environment")['debug'] == "True"
-
 OracleDatabase = config_section_map("oracle")["database"]
 OracleHost = config_section_map("oracle")["host"]
 OracleIP = config_section_map("oracle")["ip"]
 OraclePassword = config_section_map("oracle")["password"]
 OraclePort = config_section_map("oracle")["port"]
-OracleTestQuery = config_section_map("oracle")["testquery"]
 OracleUser = config_section_map("oracle")["username"]
 
 SSHHost = config_section_map("ssh")["host"]

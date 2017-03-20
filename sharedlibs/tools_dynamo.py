@@ -5,42 +5,17 @@ __author__ = 'scottbowers'
 
 class ToolsDynamo(object):
     @staticmethod
-    def create_table(_json):
-        # Get the service resource.
+    def create_table(tablename, keyschema, attributedefinitions, provisionedthroughput):
         dynamodb = boto3.resource('dynamodb')
-
-        # Create the DynamoDB table.
         table = dynamodb.create_table(
-            TableName='users',
-            KeySchema=[
-                {
-                    'AttributeName': 'username',
-                    'KeyType': 'HASH'
-                },
-                {
-                    'AttributeName': 'last_name',
-                    'KeyType': 'RANGE'
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'username',
-                    'AttributeType': 'S'
-                },
-                {
-                    'AttributeName': 'last_name',
-                    'AttributeType': 'S'
-                },
-
-            ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 5
-            }
+            TableName=tablename,
+            KeySchema=keyschema,
+            AttributeDefinitions=attributedefinitions,
+            ProvisionedThroughput=provisionedthroughput
         )
 
         # Wait until the table exists.
-        table.meta.client.get_waiter('table_exists').wait(TableName='users')
+        table.meta.client.get_waiter('table_exists').wait(TableName=tablename)
 
         # Print out some data about the table.
         print(table.item_count)
@@ -48,106 +23,74 @@ class ToolsDynamo(object):
         return True
 
     @staticmethod
-    def delete_record(_json):
+    def delete_record(tablename, key):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         table.delete_item(
-            Key={
-                'username': 'janedoe',
-                'last_name': 'Doe'
-            }
+            Key=key
         )
         return True
 
     @staticmethod
-    def delete_table(_json):
+    def delete_table(tablename):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         table.delete()
+        return True
 
     @staticmethod
-    def get_record(_json):
+    def get_record(tablename, key):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         response = table.get_item(
-            Key={
-                'username': 'janedoe',
-                'last_name': 'Doe'
-            }
+            Key=key
         )
         item = response['Item']
         return item
 
     @staticmethod
-    def get_recordset(table):
+    def get_recordset(tablename, key, keyval):
         from boto3.dynamodb.conditions import Key, Attr
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         response = table.query(
-            KeyConditionExpression=Key('username').eq('johndoe')
+            KeyConditionExpression=Key(key).eq(keyval)
         )
         items = response['Items']
         return items
 
     @staticmethod
-    def insert_record(_json):
+    def insert_record(tablename, item):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         table.put_item(
-            Item={
-                'username': 'janedoe',
-                'first_name': 'Jane',
-                'last_name': 'Doe',
-                'age': 25,
-                'account_type': 'standard_user',
-            }
+            Item=item
         )
         return True
 
     @staticmethod
-    def insert_record_batch(_json):
+    def insert_record_batch(tablename, itemlist):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         with table.batch_writer() as batch:
-            for i in range(50):
+            for i in itemlist.count:
                 batch.put_item(
-                    Item={
-                        'account_type': 'anonymous',
-                        'username': 'user' + str(i),
-                        'first_name': 'unknown',
-                        'last_name': 'unknown'
-                    }
+                    Item=itemlist[i]
                 )
         return True
 
     @staticmethod
-    def read_table(table):
-        # Get the service resource.
+    def read_table(tablename):
         dynamodb = boto3.resource('dynamodb')
-
-        # Instantiate a table resource object without actually
-        # creating a DynamoDB table. Note that the attributes of this table
-        # are lazy-loaded: a request is not made nor are the attribute
-        # values populated until the attributes
-        # on the table resource are accessed or its load() method is called.
-        table = dynamodb.Table(table)
-
-        # Print out some data about the table.
-        # This will cause a request to be made to DynamoDB and its attribute
-        # values will be set based on the response.
+        table = dynamodb.Table(tablename)
         return table.creation_date_time
 
     @staticmethod
-    def update_record(_json):
+    def update_record(tablename, key, updateexpression, expressionattributevalues):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('users')
+        table = dynamodb.Table(tablename)
         table.update_item(
-            Key={
-                'username': 'janedoe',
-                'last_name': 'Doe'
-            },
-            UpdateExpression='SET age = :val1',
-            ExpressionAttributeValues={
-                ':val1': 26
-            }
+            Key=key,
+            UpdateExpression=updateexpression,
+            ExpressionAttributeValues=expressionattributevalues
         )

@@ -1,6 +1,7 @@
 import sharedlibs.config as _config
 import sharedlibs.tools_dynamo as _tools_dynamo
 
+# STUB FOR THE LOADING INTO DYNAMO
 
 class Loader(object):
     @staticmethod
