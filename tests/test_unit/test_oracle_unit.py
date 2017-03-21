@@ -13,7 +13,7 @@ def fake_get_recordset(sql):
     return _config.OracleTestRecordset
 
 
-class TestOracleMock(TestCase):
+class TestOracleUnit(TestCase):
     def create_patch(self, name, fakemethod):
         self.patcher = patch(name, fakemethod)
         thing = self.patcher.start()

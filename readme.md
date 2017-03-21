@@ -73,21 +73,30 @@ There are a number of steps necessary to set up the oracle environment on the ma
 - loader.py: Loads data into Dynamo DB Stub
 - readme.md: Documentation
 
+###files
+- default: the default file ensures that this file store is created when packaging
+
 ###sharedlibs
+- __init__.py: initialization to create package
 - config.py: loads configuration from _config.ini file
 - tools_dynamo.py: interface with DynamoDB
+- tools_odm.py: interface with ODM
 - tools_oracle: interface with OracleDB
 
 ###tests
+- __init__.py: initialization to create package
+- configtests.py: variables used for testing
 
 ####test_integration
+- test_odm_integration.py: Tests read/write to actual file system
 - test_oracle_integration.py: Tests a read from actual OracleDB
 - test_dynamo_integration.py: Tests communication with actual DynamoDB
 
 ####test_unit
 - test_dependencies.py: unit testing that dependencies are installed correctly
-- test_dynamo.py: Mock testing of DynamoDB 
-- test_oracle.py Mock testing of OracleDB
+- test_dynamo_unit.py: Mock testing of DynamoDB 
+- test_odm_unit.py: Mock testing of ODM
+- test_oracle_unit.py Mock testing of OracleDB
 
 ##Packages
 the following package dependencies need to be installed via pip3 or other

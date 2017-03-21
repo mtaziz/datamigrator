@@ -39,6 +39,12 @@ class TestDependencies(TestCase):
         except:
             self.fail(msg="failed to load json dependency")
 
+    def test_os_dependency(self):
+        try:
+            import os
+        except:
+            self.fail(msg="failed to load os dependency")
+
     def test_time_dependency(self):
         try:
             import time

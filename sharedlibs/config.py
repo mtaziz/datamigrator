@@ -19,6 +19,8 @@ def config_section_map(section):
             dict1[option] = None
     return dict1
 
+ODMPath = config_section_map("odm")["path"]
+
 OracleDatabase = config_section_map("oracle")["database"]
 OracleHost = config_section_map("oracle")["host"]
 OracleIP = config_section_map("oracle")["ip"]

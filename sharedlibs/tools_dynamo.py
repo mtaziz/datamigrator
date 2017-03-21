@@ -5,22 +5,29 @@ __author__ = 'scottbowers'
 
 class ToolsDynamo(object):
     @staticmethod
+    def convert_oracle_record_to_dynamo(recordset):
+        ret = "string with a dynamo record"
+        return ret
+
+    @staticmethod
     def create_table(tablename, keyschema, attributedefinitions, provisionedthroughput):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.create_table(
-            TableName=tablename,
-            KeySchema=keyschema,
-            AttributeDefinitions=attributedefinitions,
-            ProvisionedThroughput=provisionedthroughput
-        )
+        try:
+            table = dynamodb.create_table(
+                TableName=tablename,
+                KeySchema=keyschema,
+                AttributeDefinitions=attributedefinitions,
+                ProvisionedThroughput=provisionedthroughput
+            )
 
-        # Wait until the table exists.
-        table.meta.client.get_waiter('table_exists').wait(TableName=tablename)
+            # Wait until the table exists.
+            table.meta.client.get_waiter('table_exists').wait(TableName=tablename)
 
-        # Print out some data about the table.
-        print(table.item_count)
-
-        return True
+            # Print out some data about the table.
+            #print(table.item_count)
+            return True
+        except:
+            return False
 
     @staticmethod
     def delete_record(tablename, key):
@@ -33,10 +40,15 @@ class ToolsDynamo(object):
 
     @staticmethod
     def delete_table(tablename):
-        dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table(tablename)
-        table.delete()
-        return True
+        try:
+            dynamodb = boto3.resource('dynamodb')
+            table = dynamodb.Table(tablename)
+            table.delete()
+            #wait for the table to be gone
+            table.meta.client.get_waiter('table_not_exists').wait(TableName=tablename)
+            return True
+        except:
+            return False
 
     @staticmethod
     def get_record(tablename, key):
@@ -62,11 +74,14 @@ class ToolsDynamo(object):
     @staticmethod
     def insert_record(tablename, item):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table(tablename)
-        table.put_item(
-            Item=item
-        )
-        return True
+        try:
+            table = dynamodb.Table(tablename)
+            table.put_item(
+                Item=item
+            )
+            return True
+        except:
+            return False
 
     @staticmethod
     def insert_record_batch(tablename, itemlist):
@@ -82,8 +97,11 @@ class ToolsDynamo(object):
     @staticmethod
     def read_table(tablename):
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table(tablename)
-        return table.creation_date_time
+        try:
+            table = dynamodb.Table(tablename)
+            return table.creation_date_time
+        except:
+            return False
 
     @staticmethod
     def update_record(tablename, key, updateexpression, expressionattributevalues):
@@ -94,3 +112,4 @@ class ToolsDynamo(object):
             UpdateExpression=updateexpression,
             ExpressionAttributeValues=expressionattributevalues
         )
+        return True
