@@ -4,11 +4,6 @@ from sharedlibs.tools_dynamo import ToolsDynamo
 from unittest import TestCase
 
 @staticmethod
-def fake_convert_oracle_record_to_dynamo(record):
-    #this should do the actual conversion here
-    return _config.DynamoTestRecord
-
-@staticmethod
 def fake_create_table(tablename, keyschema, attributedefinitions, provisionedthroughput):
     return True
 
@@ -54,10 +49,7 @@ class TestDynamoUnit(TestCase):
         return thing
 
     def test_convert_oracle_record_to_dynamo(self):
-        #mocking this for now, but should do real convert using OracleTestRecord
-        self.create_patch('sharedlibs.tools_dynamo.ToolsDynamo.convert_oracle_record_to_dynamo',
-                          fake_convert_oracle_record_to_dynamo)
-        response = self.client.convert_oracle_record_to_dynamo(_config.OracleTestRecord)
+        response = ToolsDynamo.convert_oracle_record_to_dynamo(_config.OracleTestRecord)
         self.assertEqual(_config.DynamoTestRecord, response)
 
     def test_create_table_mock(self):
@@ -80,18 +72,18 @@ class TestDynamoUnit(TestCase):
     def test_get_record_mock(self):
         self.create_patch('sharedlibs.tools_dynamo.ToolsDynamo.get_record', fake_get_record)
         response = self.client.get_record(_config.DynamoTestTablename, _config.DynamoTestRecord)
-        self.assertIn('field_a', response)
-        self.assertEqual(response['field_a'], _config.DynamoTestRecord['field_a'])
-        self.assertEqual(response['field_b'], _config.DynamoTestRecord['field_b'])
+        self.assertIn('oid', response)
+        self.assertEqual(response['oid'], _config.DynamoTestRecord['oid'])
+        self.assertEqual(response['oid'], _config.DynamoTestRecord['oid'])
 
     def test_get_recordset_mock(self):
         self.create_patch('sharedlibs.tools_dynamo.ToolsDynamo.get_recordset', fake_get_recordset)
         response = self.client.get_recordset(_config.DynamoTestTablename, _config.DynamoTestKey,
                                              _config.DynamoTestKeyval)
         self.assertIn(_config.DynamoTestRecord, response)
-        self.assertEqual(response[0]['field_a'], _config.DynamoTestRecordset[0]['field_a'])
-        self.assertEqual(response[1]['field_a'], _config.DynamoTestRecordset[1]['field_a'])
-        self.assertEqual(response[1]['field_b'], _config.DynamoTestRecordset[1]['field_b'])
+        self.assertEqual(response[0]['oid'], _config.DynamoTestRecordset[0]['oid'])
+        self.assertEqual(response[1]['oid'], _config.DynamoTestRecordset[1]['oid'])
+        self.assertEqual(response[1]['oid'], _config.DynamoTestRecordset[1]['oid'])
 
     def test_insert_record_mock(self):
         self.create_patch('sharedlibs.tools_dynamo.ToolsDynamo.insert_record', fake_insert_record)
@@ -110,10 +102,8 @@ class TestDynamoUnit(TestCase):
 
     def test_update_record_mock(self):
         self.create_patch('sharedlibs.tools_dynamo.ToolsDynamo.update_record', fake_update_record)
-        updateexpression = 'SET field_b = :val1'
-        expressionattributevalues = {
-            ':val1': 'Doh'
-        }
+        updateexpression = _config.DynamoTestUpdateExpression
+        expressionattributevalues = _config.DynamoTestUpdateExpressionAttributeValues
         response = self.client.update_record(_config.DynamoTestTablename, _config.DynamoTestRecord,
                                              updateexpression, expressionattributevalues)
         self.assertTrue(response)

@@ -25,16 +25,16 @@ class TestOracleUnit(TestCase):
         self.create_patch('sharedlibs.tools_oracle.ToolsOracle.get_record', fake_get_record)
         sql = _config.OracleTestQueryOneRecord
         response = self.client.get_record(sql)
-        self.assertIn('ENROLLMENTTARGET', response)
-        self.assertEqual(response['ENROLLMENTTARGET'], 'eta')
+        self.assertIn('STUDYID', response)
+        self.assertEqual(response['STUDYID'], 1)
 
     def test_get_recordset_mock(self):
         self.create_patch('sharedlibs.tools_oracle.ToolsOracle.get_recordset', fake_get_recordset)
         sql = _config.OracleTestQueryRecordset
         response = self.client.get_recordset(sql)
         self.assertIn(_config.OracleTestRecordset[0], response)
-        self.assertEqual(response[0]['ENROLLMENTTARGET'], _config.OracleTestRecordset[0]['ENROLLMENTTARGET'])
-        self.assertEqual(response[1]['ENROLLMENTTARGET'], _config.OracleTestRecordset[1]['ENROLLMENTTARGET'])
+        self.assertEqual(response[0]['STUDYID'], _config.OracleTestRecordset[0]['STUDYID'])
+        self.assertEqual(response[1]['PROJECTID'], _config.OracleTestRecordset[1]['PROJECTID'])
 
 
 

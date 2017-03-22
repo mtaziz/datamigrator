@@ -7,8 +7,8 @@ class TestOracleIntegration(TestCase):
     def test_get_record(self):
         sql = _config.OracleTestQueryOneRecord
         response = ToolsOracle().get_record(sql)
-        self.assertNotEquals(response['ENROLLMENTTARGET'], '', msg=response)
-        self.assertNotEquals(response['UPDATE_DATE'], '', msg=response)
+        self.assertEquals(response['STUDYID'], 1, msg=response)
+        self.assertEquals(response['PROJECTID'], 2, msg=response)
         try:
             a = response['FALSE DICT']
             self.fail(msg="did not fail false dict, but should have")
@@ -20,8 +20,8 @@ class TestOracleIntegration(TestCase):
     def test_get_recordset(self):
         sql = _config.OracleTestQueryRecordset
         response = ToolsOracle.get_recordset(sql)
-        self.assertNotEquals(response[0]['ENROLLMENTTARGET'], '', msg=response)
-        self.assertNotEquals(response[0]['UPDATE_DATE'], '', msg=response)
+        self.assertEquals(response[0]['STUDYID'], 1, msg=response)
+        self.assertEquals(response[1]['PROJECTID'], 3, msg=response)
         try:
             a = response[0]['FALSE DICT']
             self.fail(msg="did not fail false dict, but should have")

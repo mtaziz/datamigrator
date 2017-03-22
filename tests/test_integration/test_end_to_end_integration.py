@@ -9,12 +9,11 @@ class TestEndToEnd(TestCase):
     def test_integration(self):
         sql = _config.OracleTestQueryOneRecord
         response = ToolsOracle().get_record(sql)
-        self.fail(msg=response)
+        self.assertEqual(response, _config.OracleTestRecord, msg=response)
 
         # convert oracle record to odm
-        # save the odm
-        # verify the odm
-        # delete the odm file
+        response = ToolsODM.convert_oracle_record_to_odm(response)
+        self.assertEqual(response, _config.ODMTestString)
 
         # create the dynamo table from oracle
         # convert oracle record to dynamo

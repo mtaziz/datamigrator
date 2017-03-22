@@ -69,8 +69,8 @@ There are a number of steps necessary to set up the oracle environment on the ma
 ###root directory
 - .gitignore: Files and directories to be excluded from repository
 - _config.ini: Configuration variables
-- extractor.py: Extract data from OracleDB Stub
-- loader.py: Loads data into Dynamo DB Stub
+- dynamo_buildtables.py: This should be run to initialize the Dynamo Tables
+- run.py: Do this to run the process
 - readme.md: Documentation
 
 ###files

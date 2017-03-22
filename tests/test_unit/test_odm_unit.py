@@ -3,9 +3,6 @@ import tests.configtests as _config
 from sharedlibs.tools_odm import ToolsODM
 from unittest import TestCase
 
-@staticmethod
-def fake_convert_oracle_record_to_odm(record):
-    return _config.ODMTestString
 
 @staticmethod
 def fake_read_file(filename):
@@ -25,10 +22,7 @@ class TestODMUnit(TestCase):
         return thing
 
     def test_convert_oracle_record_to_odm(self):
-        #this is doing a fake, but it should do the actual conversion
-        self.create_patch('sharedlibs.tools_odm.ToolsODM.convert_oracle_record_to_odm',
-                          fake_convert_oracle_record_to_odm)
-        response = self.client.convert_oracle_record_to_odm(_config.OracleTestRecord)
+        response = ToolsODM.convert_oracle_record_to_odm(_config.OracleTestRecord)
         self.assertEqual(response, _config.ODMTestString)
 
     def test_read_file(self):

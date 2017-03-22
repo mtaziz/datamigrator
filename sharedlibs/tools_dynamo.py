@@ -5,8 +5,14 @@ __author__ = 'scottbowers'
 
 class ToolsDynamo(object):
     @staticmethod
-    def convert_oracle_record_to_dynamo(recordset):
-        ret = "string with a dynamo record"
+    def convert_oracle_record_to_dynamo(record):
+        ret = {}
+        ret['oid'] = str(record['O_ID'])
+        ret['studyid'] = record['STUDYID']
+        info = {}
+        info['created'] = str(record['CREATED']).replace(' ', 'T')
+        ret['info'] = info
+
         return ret
 
     @staticmethod
